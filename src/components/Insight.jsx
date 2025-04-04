@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Navbar from "./Navbar";
 import * as THREE from "three";
-import GLOBE from "vanta/dist/vanta.globe.min"; // Import Vanta Globe
 import BottomNav from "./BottomNav"; // Import Bottom Navigation
 
 const Insight = () => {
@@ -10,7 +9,7 @@ const Insight = () => {
   const vantaRef = useRef(null);
 
   // Initialize Gemini AI
-  const GEMINI_API_KEY = "AIzaSyDOe24XdnMYN_tGUvvYqoVPI7pOXESYWjA"; // Replace with environment variable in production
+  const GEMINI_API_KEY = "AIzaSyDOe24XdnMYN_tGUvvYqoVPI7pOXESYWjA"; // Replace in production
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
   useEffect(() => {
@@ -38,11 +37,10 @@ const Insight = () => {
         const response = await result.response;
         let text = await response.text();
 
-        // ✅ Clean the AI response before parsing
         text = text.trim();
         text = text.replace(/```json/g, "").replace(/```/g, ""); // Remove code block formatting
 
-        const insightsJSON = JSON.parse(text); // Convert to JSON
+        const insightsJSON = JSON.parse(text);
         setInsights(insightsJSON);
       } catch (error) {
         console.error("Error generating insights:", error);
@@ -53,27 +51,34 @@ const Insight = () => {
     generateInsights();
   }, []);
 
-  // Initialize Vanta.js Globe effect
+  // ✅ Load Vanta.js dynamically
   useEffect(() => {
     if (!vantaRef.current) return;
 
-    const vantaEffect = GLOBE({
-      el: vantaRef.current,
-      THREE: THREE,
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.0,
-      minWidth: 200.0,
-      scale: 1.0,
-      scaleMobile: 1.0,
-      color: 0x007bff, // Blue color
-      size: 1.5,
-      backgroundColor: 0x151c3c, // Dark blue background
-    });
+    let vantaEffect = null;
+
+    const loadVanta = async () => {
+      const GLOBE = (await import("vanta/dist/vanta.globe.min")).default; // ✅ Dynamic import
+      vantaEffect = GLOBE({
+        el: vantaRef.current,
+        THREE: THREE,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x007bff,
+        size: 1.5,
+        backgroundColor: 0x151c3c,
+      });
+    };
+
+    loadVanta();
 
     return () => {
-      if (vantaEffect) vantaEffect.destroy(); // Cleanup on unmount
+      if (vantaEffect) vantaEffect.destroy(); // Cleanup
     };
   }, []);
 
