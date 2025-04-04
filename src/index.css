@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Remove default margin and ensure full width */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: rgb(17, 24, 39); /* Ensure background color matches */
+  }
+  

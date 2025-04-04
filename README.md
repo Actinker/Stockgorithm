@@ -1,2 +1,2 @@
 # Stockgorithm
-Stock market prediction &amp; algorithmic trading
+Stock market prediction & algorithmic trading
