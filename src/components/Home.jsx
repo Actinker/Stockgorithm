@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import LatestNews from "./LatestNews";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import {gsap} from "gsap";
 
 const Home = () => {
   const titleRef = useRef(null);
