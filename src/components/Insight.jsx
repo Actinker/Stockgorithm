@@ -1,35 +1,43 @@
-import { useState, useEffect, useRef } from "react";
+// Insight.jsx
+import { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Navbar from "./Navbar";
-import * as THREE from "three";
-import BottomNav from "./BottomNav"; // Import Bottom Navigation
+import BottomNav from "./BottomNav";
 
 const Insight = () => {
   const [insights, setInsights] = useState(null);
-  const vantaRef = useRef(null);
-
-  // Initialize Gemini AI
-  const GEMINI_API_KEY = "AIzaSyDOe24XdnMYN_tGUvvYqoVPI7pOXESYWjA"; // Replace in production
-  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+  const genAI = new GoogleGenerativeAI("AIzaSyDOe24XdnMYN_tGUvvYqoVPI7pOXESYWjA"); // Use env in prod
 
   useEffect(() => {
     const generateInsights = async () => {
       try {
+        const newsResponse = await fetch("http://localhost:5000/news");
+        const newsData = await newsResponse.json();
+
+        const headlines = newsData
+          .slice(0, 10)
+          .map((item) => `- ${item.title}`)
+          .join("\n");
+
         const prompt = `
-        Analyze the current Indian stock market and provide a structured summary in JSON format.
-        The response should strictly follow this format without additional text or code blocks:
-        {
-          "Current Trends": "...",
-          "Key Insights": "...",
-          "What to Invest In?": "...",
-          "Buy/Sell Recommendations": "...",
-          "Sector Performances": "...",
-          "Risk Factors": "...",
-          "Global Market Influence": "...",
-          "Top Gainers & Losers": "...",
-          "Current Market Prediction": "..."
-        }
-        Do NOT include \`\`\`json or any extra text. ONLY return raw JSON.
+Analyze the current Indian stock market using the latest news headlines below and provide a structured summary in JSON format.
+
+Latest Headlines:
+${headlines}
+
+The response should strictly follow this format without additional text or code blocks:
+{
+  "Current Trends": "...",
+  "Key Insights": "...",
+  "What to Invest In?": "...",
+  "Buy/Sell Recommendations": "...",
+  "Sector Performances": "...",
+  "Risk Factors": "...",
+  "Global Market Influence": "...",
+  "Top Gainers & Losers": "...",
+  "Current Market Prediction": "..."
+}
+Do NOT include \`\`\`json or any extra text. ONLY return raw JSON.
         `;
 
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -37,9 +45,7 @@ const Insight = () => {
         const response = await result.response;
         let text = await response.text();
 
-        text = text.trim();
-        text = text.replace(/```json/g, "").replace(/```/g, ""); // Remove code block formatting
-
+        text = text.trim().replace(/```json|```/g, "");
         const insightsJSON = JSON.parse(text);
         setInsights(insightsJSON);
       } catch (error) {
@@ -51,45 +57,12 @@ const Insight = () => {
     generateInsights();
   }, []);
 
-  // ✅ Load Vanta.js dynamically
-  useEffect(() => {
-    if (!vantaRef.current) return;
-
-    let vantaEffect = null;
-
-    const loadVanta = async () => {
-      const GLOBE = (await import("vanta/dist/vanta.globe.min")).default; // ✅ Dynamic import
-      vantaEffect = GLOBE({
-        el: vantaRef.current,
-        THREE: THREE,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0x007bff,
-        size: 1.5,
-        backgroundColor: 0x151c3c,
-      });
-    };
-
-    loadVanta();
-
-    return () => {
-      if (vantaEffect) vantaEffect.destroy(); // Cleanup
-    };
-  }, []);
-
   return (
     <>
       <Navbar />
-      <div ref={vantaRef} className="relative bg-gray-900 text-white min-h-screen overflow-hidden p-6">
-        <h2 className="text-3xl font-bold mb-6 text-center">Stock Market Insights</h2>
-
-        {/* Insights Grid Layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+      <div className="bg-gray-900 text-white min-h-screen overflow-hidden p-6 pb-24">
+        <h2 className="text-3xl font-bold mb-6 text-center text-indigo-500">Stock Market Insights</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {insights ? (
             Object.entries(insights).map(([category, text]) => (
               <div
@@ -103,9 +76,8 @@ const Insight = () => {
           ) : (
             <p className="text-gray-400 text-center col-span-3">Generating insights...</p>
           )}
-          <div></div><div></div>
-          <BottomNav /> {/* ✅ Added Mobile Navigation */}
         </div>
+        <BottomNav className="mt-12" />
       </div>
     </>
   );

@@ -1,26 +1,11 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import BottomNav from "./BottomNav"; // Import Bottom Navigation
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import BottomNav from "../components/BottomNav";
+import LatestNews from "../components/LatestNews";
 import { Link } from "react-router-dom";
-import LatestNews from "./LatestNews";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import {gsap} from "gsap";
 
 const Home = () => {
-  const titleRef = useRef(null);
-  const textRef = useRef(null);
-
-  useEffect(() => {
-    gsap.to([titleRef.current, textRef.current], {
-      textShadow: "0px 0px 12px rgba(0, 102, 255, 0.6), 0px 0px 24px rgba(0, 102, 255, 0.4)",
-      repeat: -1,
-      yoyo: true,
-      duration: 2.5,
-      ease: "power2.inOut"
-    });
-  }, []);
-
   return (
     <div className="relative bg-gray-900 text-white min-h-screen overflow-hidden">
       <video
@@ -41,13 +26,10 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <h1
-              ref={titleRef}
-              className="text-5xl font-bold text-indigo-400 drop-shadow-lg"
-            >
+            <h1 className="text-5xl font-bold text-indigo-400 drop-shadow-lg animate-glow">
               StockGorithm
             </h1>
-            <p ref={textRef} className="text-lg mt-4 text-indigo-400">
+            <p className="text-lg mt-4 text-indigo-400 animate-glow">
               AI-powered stock market predictions to help you invest smarter.
             </p>
             <Link to="/predict">
@@ -74,13 +56,13 @@ const Home = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-          className="pb-24 md:pb-10" // ✅ Extra space at the bottom only for mobile
+          className="pb-24 md:pb-10"
         >
           <LatestNews />
         </motion.div>
 
         <Footer />
-        <BottomNav /> {/* ✅ Added Mobile Navigation */}
+        <BottomNav />
       </div>
     </div>
   );

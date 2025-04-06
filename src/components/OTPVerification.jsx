@@ -34,7 +34,7 @@ const OTPVerification = () => {
 
       const data = await response.json();
       if (data.status === "success") {
-        navigate("/set-credentials", { state: { email } }); // Redirect to username & password setup
+        navigate("/set-credentials", { state: { email } });
       } else {
         setError("Invalid OTP or OTP expired. Try again.");
       }
@@ -71,29 +71,31 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-sm">
-      <h2 className="text-3xl font-bold text-center mb-6">Verify OTP</h2>
+    <div className="p-6 sm:p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-xs sm:max-w-sm">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">Verify OTP</h2>
 
-      {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-      {resendMessage && <p className="text-green-500 text-sm text-center mb-4">{resendMessage}</p>}
+      {error && <p className="text-red-500 text-sm text-center mb-3 sm:mb-4">{error}</p>}
+      {resendMessage && <p className="text-green-500 text-sm text-center mb-3 sm:mb-4">{resendMessage}</p>}
 
       <form onSubmit={handleVerifyOTP}>
-        <div className="mb-4">
-          <label htmlFor="otp" className="block text-sm font-medium text-gray-400">Enter OTP</label>
+        <div className="mb-3 sm:mb-4">
+          <label htmlFor="otp" className="block text-sm sm:text-base font-medium text-gray-400">
+            Enter OTP
+          </label>
           <input
             type="text"
             id="otp"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             placeholder="Enter OTP"
-            className="w-full mt-1 p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full mt-1 p-2 sm:p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-lg font-semibold transition-all duration-200 ${
+          className={`w-full py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ${
             loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700 text-white"
           }`}
         >
@@ -101,11 +103,11 @@ const OTPVerification = () => {
         </button>
       </form>
 
-      <div className="mt-4 text-center">
+      <div className="mt-3 sm:mt-4 text-center">
         <button
           onClick={handleResendOTP}
           disabled={resendLoading}
-          className="text-sm text-indigo-400 hover:underline"
+          className="text-sm sm:text-base text-indigo-400 hover:underline"
         >
           {resendLoading ? "Resending OTP..." : "Resend OTP"}
         </button>

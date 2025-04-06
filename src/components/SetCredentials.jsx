@@ -43,40 +43,44 @@ const SetCredentials = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-sm">
-      <h2 className="text-3xl font-bold text-center mb-6">Set User Details</h2>
+    <div className="p-6 sm:p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-xs sm:max-w-sm">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">Set Credentials</h2>
 
-      {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+      {error && <p className="text-red-500 text-sm text-center mb-3 sm:mb-4">{error}</p>}
 
       <form onSubmit={handleSetCredentials}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-medium text-gray-400">Username</label>
+        <div className="mb-3 sm:mb-4">
+          <label htmlFor="username" className="block text-sm sm:text-base font-medium text-gray-400">
+            Username
+          </label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your username"
-            className="w-full mt-1 p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full mt-1 p-2 sm:p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-400">Password</label>
+        <div className="mb-3 sm:mb-4">
+          <label htmlFor="password" className="block text-sm sm:text-base font-medium text-gray-400">
+            Password
+          </label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
-            className="w-full mt-1 p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full mt-1 p-2 sm:p-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-lg font-semibold transition-all duration-200 ${
+          className={`w-full py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ${
             loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700 text-white"
           }`}
         >

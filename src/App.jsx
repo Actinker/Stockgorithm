@@ -22,7 +22,7 @@ const MainScreen = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-gray-900 flex items-center justify-center">
+    <div className="h-screen w-screen bg-gray-900 flex flex-col items-center justify-center px-6 sm:px-10">
       {/* Opening Animation */}
       {!showPopup && (
         <motion.div
@@ -31,8 +31,8 @@ const MainScreen = () => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="text-center"
         >
-          <h1 className="text-6xl font-extrabold text-indigo-500">StockGorithm</h1>
-          <p className="mt-4 text-xl text-gray-300">Predict. Invest. Succeed.</p>
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-indigo-500">StockGorithm</h1>
+          <p className="mt-4 text-lg sm:text-xl text-gray-300">Predict. Invest. Succeed.</p>
         </motion.div>
       )}
 
@@ -42,16 +42,16 @@ const MainScreen = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-sm text-center"
+          className="p-6 sm:p-8 bg-gray-800 rounded-3xl shadow-2xl text-gray-100 w-full max-w-xs sm:max-w-sm text-center"
         >
-          <h2 className="text-2xl font-bold mb-4">Welcome to StockGorithm</h2>
-          <p className="mb-6 text-gray-300">Choose an option to continue:</p>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">Welcome to StockGorithm</h2>
+          <p className="mb-4 text-gray-300 text-sm sm:text-base">Choose an option to continue:</p>
 
-          <div className="flex flex-col gap-4">
-            <Link to="/signin" className="px-4 py-2 text-lg bg-indigo-500 rounded-lg hover:bg-indigo-600">
+          <div className="flex flex-col gap-3 sm:gap-4">
+            <Link to="/signin" className="px-4 py-2 text-sm sm:text-lg bg-indigo-500 rounded-lg hover:bg-indigo-600">
               Sign In
             </Link>
-            <Link to="/signup" className="px-4 py-2 text-lg bg-green-500 rounded-lg hover:bg-green-600">
+            <Link to="/signup" className="px-4 py-2 text-sm sm:text-lg bg-green-500 rounded-lg hover:bg-green-600">
               Sign Up
             </Link>
           </div>
@@ -70,7 +70,6 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/set-credentials" element={<SetCredentialsPage />} />
         <Route path="/otp-verification" element={<OTPVerificationPage />} />
-        {/* Add other routes here */}
         <Route path="/home" element={<Home />} />
         <Route path="/predict" element={<Predict />} />
         <Route path="/news" element={<News/>}/>

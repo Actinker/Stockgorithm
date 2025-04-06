@@ -1,64 +1,62 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Box } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import logo from "/logo.png"; // Ensure the path is correct
+import { FiSearch } from "react-icons/fi"; // lightweight icon package
+import logo from "/logo.png";
 
 const Navbar = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleSearch = () => {
+    // Add your search functionality here
+    console.log("Searching for:", searchQuery);
   };
 
   return (
     <>
-      {/* Fixed Navbar */}
-      <AppBar position="fixed" sx={{ backgroundColor: "rgb(17, 24, 39)", zIndex: 1100 }}>
-        <Toolbar sx={{display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: 64 }}>
-          
-          {/* Logo for Mobile, Text for Desktop */}
-          <Link to="/home" className="flex items-center text-white">
-            <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}>
-              <img src={logo} alt="StockGorithm Logo" style={{ height: 40 }} />
-            </Box>
-            <h1 className="text-2xl font-bold text-indigo-500 hidden md:block">StockGorithm</h1>
-          </Link>
+      {/* Mobile Navbar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-gray-900 px-4 py-3 flex items-center justify-between shadow-md">
+        {/* Logo */}
+        <Link to="/home">
+          <img src={logo} alt="StockGorithm Logo" className="h-8" />
+        </Link>
 
-          {/* Desktop Menu */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 4 }}>
-            <Link to="/home" className="hover:text-indigo-400">Home</Link>
-            <Link to="/predict" className="hover:text-indigo-400">Predict</Link>
-            <Link to="/news" className="hover:text-indigo-400">News</Link>
-            <Link to="/insight" className="hover:text-indigo-400">Insights</Link>
-          </Box>
-
-          {/* Mobile Menu Button */}
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={handleDrawerToggle}
-            sx={{ display: { xs: "flex", md: "none" } }}
+        {/* Search Input + Icon */}
+        <div className="flex items-center ml-4 flex-1 bg-gray-800 rounded-lg overflow-hidden">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search stocks..."
+            className="flex-1 px-4 py-2 text-white bg-transparent focus:outline-none"
+          />
+          <button
+            onClick={handleSearch}
+            className="px-3 py-2 text-indigo-400 hover:text-indigo-500 transition"
           >
-            <MenuIcon />
-          </IconButton>
+            <FiSearch size={20} />
+          </button>
+        </div>
+      </div>
 
-        </Toolbar>
-      </AppBar>
+      {/* Desktop Navbar */}
+      <div className="hidden md:flex fixed top-0 left-0 right-0 z-50 bg-gray-900 px-8 py-4 items-center justify-between shadow-lg">
+        {/* Logo & Title */}
+        <Link to="/home" className="flex items-center text-white">
+          <img src={logo} alt="StockGorithm Logo" className="h-10 mr-3" />
+          <h1 className="text-2xl font-bold text-indigo-500">StockGorithm</h1>
+        </Link>
 
-      {/* Mobile Sidebar */}
-      <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
-        <List sx={{ width: 250, backgroundColor: "rgb(17, 24, 39)", height: "100%", color: "white" }}>
-          {["Home", "Predict", "News", "Insight"].map((text) => (
-            <ListItem key={text} onClick={handleDrawerToggle} component={Link} to={`/${text.toLowerCase()}`}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+        {/* Desktop Navigation */}
+        <div className="flex gap-6 text-white">
+          <Link to="/home" className="hover:text-indigo-400">Home</Link>
+          <Link to="/predict" className="hover:text-indigo-400">Predict</Link>
+          <Link to="/news" className="hover:text-indigo-400">News</Link>
+          <Link to="/insight" className="hover:text-indigo-400">Insights</Link>
+        </div>
+      </div>
 
-      {/* Add Top Padding to Prevent Overlapping Content */}
-      <div className="pt-16"></div> 
+      {/* Spacer for fixed navbar */}
+      <div className="pt-16"></div>
     </>
   );
 };
