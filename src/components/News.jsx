@@ -42,13 +42,13 @@ const News = () => {
               {/* Image */}
               <div className="w-full h-48">
                 <img
-                  src={article.image || "https://via.placeholder.com/300"}
+                  src={article.image || "/images/default.jpg" }
                   alt="News"
                   loading="lazy"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/300";
+                    e.target.src = "/images/default.jpg";
                   }}
                 />
               </div>
