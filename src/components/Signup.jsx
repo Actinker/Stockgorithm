@@ -20,7 +20,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${BASE_URL}signup`, {
+      const response = await fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

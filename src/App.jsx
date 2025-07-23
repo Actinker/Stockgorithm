@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import Predict from "./components/Predict"; 
 import News from "./components/News";
 import Insight from "./components/Insight";
+import Aironix from "./components/Aironix"; // Assuming you have an Aironix component
 
 const MainScreen = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -74,6 +75,8 @@ const App = () => {
         <Route path="/predict" element={<Predict />} />
         <Route path="/news" element={<News/>}/>
         <Route path="/insight" element={<Insight/>}/>
+        <Route path="/aironix" element={<Aironix/>}/>
+        {/* Add other routes as needed */}
       </Routes>
     </Router>
   );
